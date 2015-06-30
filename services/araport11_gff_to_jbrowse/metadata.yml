@@ -17,6 +17,7 @@ validate_request: true
 whitelist:
   - www.araport.org
 requirements:
+  - biopython
   - gffutils
 
 endpoints:
@@ -93,7 +94,7 @@ endpoints:
 
 sources:
   - title: "Generic web service to transform GFF files into JBrowse compatible JSON format"
-    description: "Web service used gffutils to parse GFF files, extract features of interest and convert to JBrowse JSON format"
+    description: "Web service uses gffutils to parse GFF file, extract features of interest and convert to JBrowse JSON format"
     language: en-us
     sponsor_organization_name: J. Craig Venter Institute
     sponsor_uri: https://www.jcvi.org
