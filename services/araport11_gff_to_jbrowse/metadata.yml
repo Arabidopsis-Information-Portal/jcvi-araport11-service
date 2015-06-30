@@ -14,6 +14,7 @@ type: generic
 main_module: main.py
 url: https://www.araport.org
 validate_request: true
+timeout: 600
 whitelist:
   - www.araport.org
 requirements:
