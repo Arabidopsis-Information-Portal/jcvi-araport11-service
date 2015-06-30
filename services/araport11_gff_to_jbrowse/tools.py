@@ -2,7 +2,7 @@ import json
 import os.path as op
 
 
-gff_file = './data/TAIR10_GFF3_genes.gff'
+gff_file = 'data/TAIR10_GFF3_genes.gff'
 
 def make_index(gff_file):
     """
