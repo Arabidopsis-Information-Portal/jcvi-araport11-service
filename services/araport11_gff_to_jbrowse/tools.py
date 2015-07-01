@@ -2,19 +2,15 @@ import json
 import os.path as op
 
 
-gff_file = op.join(op.dirname(__file__), 'data', 'TAIR10_GFF3_genes.gff')
+gff_file = op.join(op.dirname(__file__), 'data', 'UniProt.protein2genome.gff3')
 
 def make_index(gff_file):
     """
     Make an inmemory index for fast retrieval of features.
     """
     import gffutils
-    db_file = gff_file + ".db"
 
-    if not op.exists(db_file):
-        gffutils.create_db(gff_file, db_file)
-
-    return gffutils.FeatureDB(db_file)
+    return gffutils.create_db(gff_file, ':memory:')
 
 
 def parse_gff(chrom, start, end, strand, featuretype):
@@ -29,7 +25,7 @@ def parse_gff(chrom, start, end, strand, featuretype):
         pfeat = {
             'start' : parent.start,
             'end' : parent.end,
-            'strand' : parent.strand,
+            'strand' : _strand,
             'uniqueID' : parent.id,
             'name' : parent.id,
             'type' : featuretype,
@@ -40,7 +36,7 @@ def parse_gff(chrom, start, end, strand, featuretype):
             cfeat = {
                 'start' : child.start,
                 'end' : child.end,
-                'strand' : child.strand,
+                'strand' : _strand,
                 'uniqueID' : child.id,
                 'name' : child.id,
                 'type' : child.featuretype,
