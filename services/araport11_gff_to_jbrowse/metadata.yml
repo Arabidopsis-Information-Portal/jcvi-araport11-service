@@ -36,13 +36,13 @@ endpoints:
         type: integer
         format: int64
         required: true
-        default: 6464
+        default: 1506752
       - name: end
         description: End
         type: integer
         format: int64
         required: true
-        default: 6653
+        default: 2415958
       - name: strand
         description: Strand
         type: string
@@ -81,12 +81,12 @@ endpoints:
         description: Start
         type: integer
         format: int64
-        default: 6464
+        default: 1506752
       - name: end
         description: End
         type: integer
         format: int64
-        default: 6653
+        default: 2415958
       - name: basesPerBin
         description: Bases Per Bin
         type: number

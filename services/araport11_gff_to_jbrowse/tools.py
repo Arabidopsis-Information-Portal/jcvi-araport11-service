@@ -27,12 +27,12 @@ def parse_gff(chrom, start, end, strand, featuretype):
             'end' : parent.end,
             'strand' : _strand,
             'uniqueID' : parent.id,
-            'name' : parent.id,
+            'name' : parent.attributes.get('Name', [parent.id])[0],
             'type' : featuretype,
             'score' : parent.score,
             'subfeatures': []
         }
-        for i, child in enumerate(db.children(parent)):
+        for child in db.children(parent):
             cfeat = {
                 'start' : child.start,
                 'end' : child.end,
