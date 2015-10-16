@@ -1,8 +1,8 @@
 ---
 
 name: araport11_to_json
-description: Given a valid AGI locus return it's features from the Araport11 annotation
-version: 0.2
+description: Given a valid AGI locus return it's features from the Araport11 Pre-Release 2 (10/2015) annotation
+version: 0.3
 tags:
     - 'annotation'
     - 'arabidopsis'

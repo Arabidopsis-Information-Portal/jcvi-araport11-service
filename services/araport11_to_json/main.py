@@ -3,7 +3,7 @@ import json
 import os.path as op
 import services.common.tools as tools
 
-ARAPORT11_GFF = op.join(op.dirname(__file__), 'data', 'Araport11_protein_coding_genes.gff3.gz')
+ARAPORT11_GFF = op.join(op.dirname(__file__), 'data', 'Araport11_genes.20151006.gff3.gz')
 
 def search(args):
     """
