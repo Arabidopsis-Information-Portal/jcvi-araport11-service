@@ -26,19 +26,18 @@ def read_index(gff_file, inmemory=False):
     return gffutils.create_db(gff_file)
 
 
-def parse_gff(chrom, start, end, strand, featuretype):
+def parse_gff(chrom, start, end, featuretype, strand=None):
     """Parse GFF and return JSON."""
 
     db = read_index(gff_file)
 
     response_body = { 'features' : [] }
     region = "{0}:{1}-{2}".format(chrom, start, end)
-    _strand = 1 if strand == "+" else 0
     for parent in db.region(region=region, strand=strand, featuretype=featuretype):
         pfeat = {
             'start' : parent.start,
             'end' : parent.end,
-            'strand' : _strand,
+            'strand' : 1 if parent.strand == '+' else -1,
             'uniqueID' : parent.id,
             'name' : parent.attributes.get('Name', [parent.id])[0],
             'description' : parent.attributes.get('Note', None),
@@ -50,7 +49,7 @@ def parse_gff(chrom, start, end, strand, featuretype):
             cfeat = {
                 'start' : child.start,
                 'end' : child.end,
-                'strand' : _strand,
+                'strand' : 1 if child.strand == '+' else -1,
                 'uniqueID' : child.id,
                 'name' : child.attributes.get('Name', [child.id])[0],
                 'type' : child.featuretype,

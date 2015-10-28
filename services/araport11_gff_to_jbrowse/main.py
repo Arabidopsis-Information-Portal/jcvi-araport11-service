@@ -16,7 +16,7 @@ def search(args):
     end = args['end']
     if start >= end:
         fail('End coordinate must be greater than start')
-    strand = '+' if 'strand' not in args \
+    strand = None if 'strand' not in args \
             else args['strand']
     featuretype = 'gene' if 'featuretype' not in args \
             else args['featuretype']

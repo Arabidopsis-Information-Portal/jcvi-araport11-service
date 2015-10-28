@@ -55,7 +55,10 @@ Araport.location = ./plugins/Araport
         "Source" : "Araport11 Pre-release 2 (Oct 2015)",
         "URL" : "https://www.araport.org/data/araport11"
     },
-   "label" : "Araport11_gene_models"
+   "label" : "Araport11_gene_models",
+   "query" : {
+     "featuretype" : "mRNA"
+   }
 }
 ```
 
