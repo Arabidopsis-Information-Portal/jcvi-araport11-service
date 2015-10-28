@@ -1,7 +1,7 @@
 import json
 import os.path as op
 
-gff_file = op.join(op.dirname(__file__), 'data', 'Araport11_genes.20151006.gff3')
+gff_file = op.join(op.dirname(__file__), 'data', 'input.gff3')
 
 def read_index(gff_file, inmemory=False):
     """
