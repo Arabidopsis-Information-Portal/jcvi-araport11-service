@@ -34,27 +34,33 @@ def parse_gff(chrom, start, end, featuretype, strand=None):
     response_body = { 'features' : [] }
     region = "{0}:{1}-{2}".format(chrom, start, end)
     for parent in db.region(region=region, strand=strand, featuretype=featuretype):
+        _strand = 1 if parent.strand == '+' else \
+            (-1 if parent.strand == '-' else 0)
         pfeat = {
             'start' : parent.start,
             'end' : parent.end,
-            'strand' : 1 if parent.strand == '+' else -1,
+            'strand' : _strand,
             'uniqueID' : parent.id,
             'name' : parent.attributes.get('Name', [parent.id])[0],
-            'description' : parent.attributes.get('Note', None),
+            'description' : parent.attributes.get('Note', None)[0],
             'type' : featuretype,
             'score' : parent.score,
             'subfeatures': []
         }
         for child in db.children(parent):
+            _strand = 1 if child.strand == '+' else \
+                (-1 if child.strand == '-' else 0)
             cfeat = {
                 'start' : child.start,
                 'end' : child.end,
-                'strand' : 1 if child.strand == '+' else -1,
+                'strand' : _strand,
                 'uniqueID' : child.id,
                 'name' : child.attributes.get('Name', [child.id])[0],
                 'type' : child.featuretype,
                 'score' : child.score
             }
+            if child.featuretype.endswith('codon') or child.featuretype == 'CDS':
+                cfeat['phase'] = child.frame
             pfeat['subfeatures'].append(cfeat)
 
         response_body['features'].append(pfeat)
