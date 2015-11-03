@@ -47,14 +47,14 @@ endpoints:
         type: integer
         format: int64
         required: true
-        default: 1506752
+        default: 216843
         minimum: 1
       - name: end
         description: End
         type: integer
         format: int64
         required: true
-        default: 2415958
+        default: 225822
         minimum: 1
       - name: strand
         description: Strand
@@ -62,7 +62,7 @@ endpoints:
         enum:
           - '+'
           - '-'
-        default: '+'
+          - '.'
       - name: scale
         description: Scale
         type: number
@@ -76,7 +76,7 @@ endpoints:
       - name: featuretype
         description: Parent GFF featuretype
         type: string
-        default: 'gene'
+        default: 'mRNA'
   /list:
     description: Chromosome information
     summary: Returns a list of A. thaliana chromosome identifiers and length

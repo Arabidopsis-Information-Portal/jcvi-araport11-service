@@ -18,8 +18,7 @@ def search(args):
         fail('End coordinate must be greater than start')
     strand = None if 'strand' not in args \
             else args['strand']
-    featuretype = 'gene' if 'featuretype' not in args \
-            else args['featuretype']
+    featuretype = args['featuretype']
 
     if q == 'features':
         data = tools.parse_gff(chrom=chrom, start=start, \

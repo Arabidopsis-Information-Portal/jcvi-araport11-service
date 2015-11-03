@@ -26,7 +26,7 @@ def read_index(gff_file, inmemory=False):
     return gffutils.create_db(gff_file)
 
 
-def parse_gff(chrom, start, end, featuretype, strand=None):
+def parse_gff(chrom, start, end, strand, featuretype):
     """Parse GFF and return JSON."""
 
     db = read_index(gff_file)
@@ -44,7 +44,7 @@ def parse_gff(chrom, start, end, featuretype, strand=None):
             'name' : parent.attributes.get('Name', [parent.id])[0],
             'description' : parent.attributes.get('Note', None)[0],
             'type' : featuretype,
-            'score' : parent.score,
+            'score' : parent.score if (isinstance(parent.score, (int, float))) else 0,
             'subfeatures': []
         }
         for child in db.children(parent):
@@ -57,7 +57,7 @@ def parse_gff(chrom, start, end, featuretype, strand=None):
                 'uniqueID' : child.id,
                 'name' : child.attributes.get('Name', [child.id])[0],
                 'type' : child.featuretype,
-                'score' : child.score
+                'score' : child.score if (isinstance(child.score, (int, float))) else 0
             }
             if child.featuretype.endswith('codon') or child.featuretype == 'CDS':
                 cfeat['phase'] = child.frame
