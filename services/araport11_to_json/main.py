@@ -1,9 +1,5 @@
-import gzip
 import json
-import os.path as op
 import services.common.tools as tools
-
-ARAPORT11_GFF = op.join(op.dirname(__file__), 'data', 'Araport11_genes.20151006.gff3.gz')
 
 def search(args):
     """
@@ -12,44 +8,41 @@ def search(args):
     locus is AGI identifier and is mandatory
     """
     search_locus = args['locus']
+    token = args['_token']
 
-    """
-    Parse the local Araport11 gff3 file to find the search locus
-    """
-    locus_record = None
-    with gzip.open(ARAPORT11_GFF, 'r') as f:
-        for header, data in tools.read_block(f, '###'):
-            gene_fields = data[0].split('\t')
-            locus =  tools.extract_agi_identifier(gene_fields[8])
-            if search_locus == locus:
-                locus_record = data
-                break
+    # get the chromosome coordinates of the specified locus
+    coordinates = tools.get_gene_coordinates(search_locus)
+    if not coordinates:
+        raise Exception("Locus '%s' could not be found!" % search_locus)
 
-    """
-    Iterate through the results
-    Foreach record from the remote service, build the response json
-    Print this json to stdout followed by a record separator "---"
-    ADAMA takes care of serializing these results
-    """
-    response = tools.parse_gff_block(locus_record)
-    print json.dumps(response, indent=2)
-    print '---'
+    # get all of the overlapping features in jBrowse format from the araport11_gff_to_jbrowse service
+    url = 'https://api.araport.org/community/v0.3/araport/araport11_gff_to_jbrowse_v0.1/search'
+    payload = {
+        'q': 'features',
+        'chr': coordinates['chromosome'],
+        'start': coordinates['start'],
+        'end': coordinates['end'],
+        'strand': coordinates['strand'],
+        'featuretype': 'gene',
+        'level': 2
+    }
+    data = tools.do_request(url, token, **payload)
+    return 'application/json', json.dumps(data)
 
 def list(args):
     """
-    List all of the available loci from the Araport11 protein-coding gene set
+    List all of the valid AGI gene locus identifiers from Araport11
     """
+    # get a new query on the class (table) from the model
+    query = tools.service.new_query("Gene")
 
-    with gzip.open(ARAPORT11_GFF, 'r') as f:
-        for header, data in tools.read_block(f, '###'):
-            gene_fields = data[0].split('\t')
-            locus = tools.extract_agi_identifier(gene_fields[8])
+    # views specify the output columns
+    query.add_view("primaryIdentifier", "chromosomeLocation.end", "chromosomeLocation.start")
 
-            record = {
-                'locus': locus,
-                'class': 'locus_property',
-                'source_text_description': 'Araport11 locus'
-            }
-
-            print json.dumps(record, indent=2)
-            print '---'
+    ids = []
+    for row in query.rows():
+        record = {
+            'locus': row['primaryIdentifier']
+        }
+        ids.append(record)
+    return 'application/json', json.dumps(ids)

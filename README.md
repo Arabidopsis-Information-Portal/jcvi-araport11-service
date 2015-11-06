@@ -1,4 +1,8 @@
-Web service wrapper to deliver locus information from the Araport11 protein-coding genes gff3 file
-==================================================================================================
+# Araport11 Webservices
 
-Objective: Build a simple web service which can parse the Araport11 protein-coding genes GFF3 file, extract information (including features) about a gene, and convert that into JSON format.
+These are [Araport](http://www.araport.org) services that can parse Araport11 GFF3 files, extract information (including features), and convert them into a JSON format.
+
+## araport11_to_json
+Given a valid AGI locus return it's features from the Araport11 Pre-Release 2 (10/2015) annotation in JSON format consumable by the jBrowse genome browser. This service uses ThaleMine to retrieve chromosome location information and the araport11_gff_to_jbrowse service to extract the features.
+```
+```

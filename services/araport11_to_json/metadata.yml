@@ -2,10 +2,11 @@
 
 name: araport11_to_json
 description: Given a valid AGI locus return it's features from the Araport11 Pre-Release 2 (10/2015) annotation
-version: 0.3
+version: 1.1
 tags:
     - 'annotation'
     - 'arabidopsis'
+    - 'araport11'
 
 authors:
     - name: Erik Ferlanti
@@ -13,7 +14,7 @@ authors:
       sponsor_organization: JCVI
       sponsor_uri: http://www.jcvi.org
 
-type: query
+type: generic
 main_module: services.araport11_to_json.main.py
 url: https://www.araport.org
 validate_request: true
@@ -21,18 +22,22 @@ timeout: 120
 whitelist:
     - www.araport.org
 icon: araport.png
+requirements:
+    - intermine
+    - requests
 
 endpoints:
     /search:
-        description: Extract features for a given locus from the Araport11 GFF and convert to JSON
+        description: Return the  features for a given locus from Araport11 and convert to JSON
         parameters:
             - name: locus
               description: AGI Gene Locus identifier
               type: string
+              pattern: '^AT[1-5MC]G[0-9]{5,5}$'
               required: true
-              default: AT1G01010
+              default: AT1G65480
     /list:
-        description: Return all the available loci from the Araport11 GFF in JSON format
+        description: Return a list of valid AGI Gene Locus identifiers from Araport11 in JSON format
 
 sources:
     - title: Araport11 annotation
