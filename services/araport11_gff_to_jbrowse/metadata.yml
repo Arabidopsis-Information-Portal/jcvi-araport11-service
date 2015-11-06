@@ -1,0 +1,99 @@
+---
+name: araport11_gff_to_jbrowse
+description: Web service to parse Araport11 GFF and return data in JBrowse compatible JSON format
+version: 0.1
+icon: araport.png
+
+authors:
+    - name: Vivek Krishnakumar
+      email: vkrishna@jcvi.org
+      sponsor_organization: J. Craig Venter Institute
+      sponsor_uri: http://www.jcvi.org
+
+type: generic
+main_module: main.py
+url: https://www.araport.org/data/araport11
+validate_request: true
+whitelist:
+  - www.araport.org
+  - api.araport.org
+requirements:
+  - biopython
+  - gffutils
+
+endpoints:
+  /search:
+    description: Parse GFF, extract features from desired range and convert to JSON
+    summary: Mimics the JBrowse /features REST endpoint
+    parameters:
+      - name: q
+        description: JBrowse REST API endpoint
+        type: string
+        required: true
+        enum:
+          - 'features'
+          - 'globalStats'
+          - 'regionStats'
+          - 'regionFeatureDensities'
+        default: 'features'
+      - name: chr
+        description: Chromosome
+        type: string
+        required: true
+        default: 'Chr1'
+        pattern: '^Chr[1-5CM]$'
+      - name: start
+        description: Start
+        type: integer
+        format: int64
+        required: true
+        default: 216843
+      - name: end
+        description: End
+        type: integer
+        format: int64
+        required: true
+        default: 225822
+        minimum: 1
+      - name: strand
+        description: Strand
+        type: string
+        enum:
+          - '+'
+          - '-'
+          - '.'
+      - name: featuretype
+        description: Parent GFF featuretype
+        type: string
+        default: 'mRNA'
+      - name: level
+        description: Depth of child feature(s)
+        type: integer
+        format: int32
+        minumum: 0
+        maximum: 2
+        default: 1
+      - name: scale
+        description: Scale
+        type: number
+        format: double
+        default: 0.0
+      - name: basesPerSpan
+        description: Bases Per Span
+        type: number
+        format: double
+        default: 0.0
+  /list:
+    description: Chromosome information
+    summary: Returns a list of A. thaliana chromosome identifiers and length
+    parameters: []
+
+sources:
+  - title: "Web service to transform features from Araport11 GFF into JBrowse compatible JSON format"
+    description: "Araport11 GFF web service uses gffutils to parse GFF3 file, extract features of interest and convert to JBrowse JSON format"
+    language: en-us
+    sponsor_organization_name: J. Craig Venter Institute
+    sponsor_uri: https://www.jcvi.org
+    provider_name: Christopher D. Town
+    provider_email: cdtown@jcvi.org
+    uri: https://www.araport.org
