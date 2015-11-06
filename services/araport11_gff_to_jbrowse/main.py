@@ -19,7 +19,7 @@ def search(args):
         tools.fail('End coordinate must be greater than start')
     strand = None if 'strand' not in args \
             else args['strand']
-    featuretype = 'mRNA' if not in args \
+    featuretype = 'mRNA' if 'featuretype' not in args \
             else args['featuretype']
     level = 1 if not in args \
             else args['level']
