@@ -73,6 +73,11 @@ endpoints:
         minumum: 0
         maximum: 2
         default: 1
+      - name: completely_within
+        description: Return features that partially or completely overlap region
+        type: boolean
+        default: false
+        required: true
       - name: scale
         description: Scale
         type: number

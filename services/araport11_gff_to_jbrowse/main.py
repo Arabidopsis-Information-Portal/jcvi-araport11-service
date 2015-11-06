@@ -21,10 +21,12 @@ def search(args):
             else args['strand']
     featuretype = args['featuretype']
     level = args['level']
+    completely_within = args['completely_within']
 
     if q == 'features':
         data = utils.parse_gff(gff_file, chrom=chrom, start=start, \
-            end=end, strand=strand, featuretype=featuretype, level=level)
+            end=end, strand=strand, featuretype=featuretype, level=level, \
+            completely_within=completely_within)
 
         if not data:
             return tools.fail('Failed to parse gff')

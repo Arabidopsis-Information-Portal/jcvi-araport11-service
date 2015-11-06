@@ -24,14 +24,15 @@ def read_index(gff_file, inmemory=False):
     return gffutils.create_db(gff_file)
 
 
-def parse_gff(gff_file, chrom, start, end, strand, featuretype, level):
+def parse_gff(gff_file, chrom, start, end, strand, featuretype, level, completely_within):
     """Parse GFF and return JSON."""
 
     db = read_index(gff_file)
 
     response_body = { 'features' : [] }
     region = "{0}:{1}-{2}".format(chrom, start, end)
-    for parent in db.region(region=region, strand=strand, featuretype=featuretype):
+    for parent in db.region(region=region, strand=strand, featuretype=featuretype, \
+        completely_within=completely_within):
         _strand = 1 if parent.strand == '+' else \
             (-1 if parent.strand == '-' else 0)
         pfeat = {
