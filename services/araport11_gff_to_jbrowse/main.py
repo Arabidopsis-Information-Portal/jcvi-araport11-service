@@ -21,7 +21,7 @@ def search(args):
             else args['strand']
     featuretype = 'mRNA' if 'featuretype' not in args \
             else args['featuretype']
-    level = 1 if not in args \
+    level = 1 if 'level' not in args \
             else args['level']
     completely_within = False if 'completely_within' not in args \
             else args['completely_within']
