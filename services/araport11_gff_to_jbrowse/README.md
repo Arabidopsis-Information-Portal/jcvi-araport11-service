@@ -28,7 +28,7 @@ Araport.location = ./plugins/Araport
   % git push
   ```
 
-* Once the above step is complete, ensure that the [gff_to_jbrowse](https://github.com/vivekkrish/gff_to_jbrowse) adapter is registered and accessible via ADAMA. See [metadata.yml](https://github.com/vivekkrish/gff_to_jbrowse/blob/master/metadata.yml) for adapter configuration (list of dependency modules and REST endpoints described using swagger.io spec).
+* Once the above step is complete, ensure that the [araport11_gff_to_jbrowse](https://github.com/Arabidopsis-Information_Portal/araport11_gff_to_jbrowse) adapter is registered and accessible via ADAMA. See [metadata.yml](https://github.com/Arabidopsis-Information_Portal/araport11_gff_to_jbrowse/blob/master/metadata.yml) for adapter configuration (list of dependency modules and REST endpoints described using swagger.io spec).
 
 * Set up the following track configuration in JBrowse within `trackList.json`:
 ```
@@ -46,7 +46,7 @@ Araport.location = ./plugins/Araport
    "key" : "Araport11 Protein Coding Genes",
    "noExport" : true,
    "storeClass" : "Araport/Store/SeqFeature/REST",
-   "baseUrl" : "https://api.araport.org/community/v0.3/vivek-dev/gff_to_jbrowse_v0.2",
+   "baseUrl" : "https://api.araport.org/community/v0.3/araport/araport11_gff_to_jbrowse_v0.1",
    "compress" : 0,
    "type" : "FeatureTrack",
    "category" : "A. Araport11 / Pre-Release 2 (Oct 2015) / Annotation",
