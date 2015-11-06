@@ -1,6 +1,6 @@
 ---
 
-name: araport11_to_json
+name: araport11_gene_structure_by_locus
 description: Given a valid AGI locus return it's features from the Araport11 Pre-Release 2 (10/2015) annotation
 version: 1.1
 tags:
@@ -15,7 +15,7 @@ authors:
       sponsor_uri: http://www.jcvi.org
 
 type: generic
-main_module: services.araport11_to_json.main.py
+main_module: services.araport11_gene_structure_by_locus.main.py
 url: https://www.araport.org
 validate_request: true
 timeout: 120
