@@ -62,6 +62,8 @@ endpoints:
           - '+'
           - '-'
           - '.'
+          - null
+        defult: null
       - name: featuretype
         description: Parent GFF featuretype
         type: string
@@ -77,7 +79,6 @@ endpoints:
         description: Return features that partially or completely overlap region
         type: boolean
         default: false
-        required: true
       - name: scale
         description: Scale
         type: number

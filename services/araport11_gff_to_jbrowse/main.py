@@ -17,8 +17,7 @@ def search(args):
     end = args['end']
     if start >= end:
         tools.fail('End coordinate must be greater than start')
-    strand = None if 'strand' not in args \
-            else args['strand']
+    strand = args['strand']
     featuretype = args['featuretype']
     level = args['level']
     completely_within = args['completely_within']
