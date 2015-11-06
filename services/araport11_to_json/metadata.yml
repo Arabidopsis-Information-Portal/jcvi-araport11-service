@@ -21,6 +21,8 @@ validate_request: true
 timeout: 120
 whitelist:
     - www.araport.org
+    - apps.araport.org
+    - api.araport.org
 icon: araport.png
 requirements:
     - intermine
