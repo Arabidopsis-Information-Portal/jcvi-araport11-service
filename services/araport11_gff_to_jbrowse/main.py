@@ -21,15 +21,20 @@ def search(args):
             return tools.fail('Failed to parse gff')
     elif q == 'globalStats':
         data = { 'scoreMin': -1, 'scoreMax': 1 }
+    elif q == 'regionStats':
+        raise Exception('Not implemented yet')
+    elif q == 'regionFeatureDensities':
+        raise Exception('Not implemented yet')
 
     return 'application/json', tools.sendJBrowse(data)
 
 
 def list(args):
     import requests
+    import os.path as op
 
-    url = 'https://api.araport.org/community/v0.3/aip/get_sequence_by_coordinate_v0.3/list'
-    token = args['_token']
+    _url, token = args['_url'], args['_token']
+    url = op.join(_url, 'aip', 'get_sequence_by_coordinate_v0.3', 'list')
 
     response = requests.get(url, \
         headers={ 'Authorization': 'Bearer {0}'.format(token) })
@@ -45,4 +50,4 @@ def list(args):
     except ValueError:
         raise Exception('not a JSON object: {}'.format(response.text))
 
-    return 'application/json', data
+    return 'application/json', json.dumps(data)
