@@ -2,10 +2,10 @@
 
 These are [Araport](http://www.araport.org) services that can parse Araport11 GFF3 files, extract information (including features), and convert them into a JSON format.
 
-## araport11_to_json
-Given a valid AGI locus return it's features from the Araport11 Pre-Release 2 (10/2015) annotation in JSON format consumable by the jBrowse genome browser. This service uses ThaleMine to retrieve chromosome location information and the **araport11_gff_to_jbrowse** service to extract the features.
+## araport11_gene_structure_by_locus
+Given a valid AGI locus return it's features from the Araport11 Pre-Release 2 (10/2015) annotation in JSON format consumable by the jBrowse genome browser. This service uses ThaleMine to retrieve chromosome location information and the **araport11_gff_region_to_jbrowse** service to extract the features.
 ```
-$ http "https://api.araport.org/community/v0.3/araport/araport11_to_json_v1.1/search?locus=AT1G65480" Authorization:"Bearer $TOKEN"
+$ http "https://api.araport.org/community/v0.3/araport/araport11_gene_structure_by_locus_v1.1/search?locus=AT1G65480" Authorization:"Bearer $TOKEN"
 {
     "features": [
         {
@@ -216,10 +216,10 @@ $ http "https://api.araport.org/community/v0.3/araport/araport11_to_json_v1.1/se
 }
 ```
 
-## araport11_gff_to_jbrowse
-Given a desired range parse the Araport11 GFF, extract features, and return data in JBrowse compatible JSON format.
+## araport11_gff_region_to_jbrowse
+Given a desired chromosomal region parse the Araport11 GFF, extract features, and return data in JBrowse compatible JSON format.
 ```
-$ http "https://api.araport.org/community/v0.3/araport/araport11_gff_to_jbrowse_v0.1/search?q=features&chr=Chr1&start=216843&end=225822&featuretype=mRNA" Authorization:"Bearer $TOKEN"
+$ http "https://api.araport.org/community/v0.3/araport/araport11_gff_region_to_jbrowse_v0.1/search?q=features&chr=Chr1&start=216843&end=225822&featuretype=mRNA" Authorization:"Bearer $TOKEN"
 {
     "features": [
         {
