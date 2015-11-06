@@ -1,7 +1,16 @@
 import json
+import requests
+import os.path as op
+
 import services.common.tools as tools
+import services.common.gff_utils as utils
+
+gff_file = op.join(op.dirname(__file__), 'data', 'input.gff3')
 
 def search(args):
+    """
+    Return features within a chromosomal region in JBrowse JSON format
+    """
     q = args['q']
     chrom = args['chr']
     start = args['start']
@@ -14,7 +23,7 @@ def search(args):
     level = args['level']
 
     if q == 'features':
-        data = tools.parse_gff(chrom=chrom, start=start, \
+        data = utils.parse_gff(gff_file, chrom=chrom, start=start, \
             end=end, strand=strand, featuretype=featuretype, level=level)
 
         if not data:
@@ -26,28 +35,16 @@ def search(args):
     elif q == 'regionFeatureDensities':
         raise Exception('Not implemented yet')
 
-    return 'application/json', tools.sendJBrowse(data)
+    return 'application/json', json.dumps(data)
 
 
 def list(args):
-    import requests
-    import os.path as op
-
+    """
+    List all of the valid Arabidopsis chromosomes and their lengths
+    """
     _url, token = args['_url'], args['_token']
     url = op.join(_url, 'aip', 'get_sequence_by_coordinate_v0.3', 'list')
 
-    response = requests.get(url, \
-        headers={ 'Authorization': 'Bearer {0}'.format(token) })
-
-    # Raise exception and abort if requests is not successful
-    response.raise_for_status()
-
-    data = None
-    try:
-        # Try to convert result to JSON
-        # abort if not possible
-        data = response.json()
-    except ValueError:
-        raise Exception('not a JSON object: {}'.format(response.text))
+    data = tools.do_request(url, token)
 
     return 'application/json', json.dumps(data)
