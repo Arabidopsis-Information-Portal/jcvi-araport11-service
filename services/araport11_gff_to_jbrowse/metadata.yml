@@ -11,7 +11,7 @@ authors:
       sponsor_uri: http://www.jcvi.org
 
 type: generic
-main_module: main.py
+main_module: services.araport11_gff_to_jbrowse.main.py
 url: https://www.araport.org/data/araport11
 validate_request: true
 whitelist:
