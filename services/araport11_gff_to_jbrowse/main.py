@@ -1,13 +1,5 @@
 import json
-
-import tools
-
-
-def fail(message):
-    # This is a simple failure message generator for generic ADAMA adapters
-    # It will eventually be replaced with a system-wide fail function
-    return 'text/plaintext; charset=ISO-8859-1', message
-
+import services.common.tools as tools
 
 def search(args):
     q = args['q']
@@ -15,7 +7,7 @@ def search(args):
     start = args['start']
     end = args['end']
     if start >= end:
-        fail('End coordinate must be greater than start')
+        tools.fail('End coordinate must be greater than start')
     strand = None if 'strand' not in args \
             else args['strand']
     featuretype = args['featuretype']
@@ -26,7 +18,7 @@ def search(args):
             end=end, strand=strand, featuretype=featuretype, level=level)
 
         if not data:
-            return fail('Failed to parse gff')
+            return tools.fail('Failed to parse gff')
     elif q == 'globalStats':
         data = { 'scoreMin': -1, 'scoreMax': 1 }
 
