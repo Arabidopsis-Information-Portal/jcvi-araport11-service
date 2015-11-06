@@ -19,10 +19,11 @@ def search(args):
     strand = None if 'strand' not in args \
             else args['strand']
     featuretype = args['featuretype']
+    level = args['level']
 
     if q == 'features':
         data = tools.parse_gff(chrom=chrom, start=start, \
-            end=end, strand=strand, featuretype=featuretype)
+            end=end, strand=strand, featuretype=featuretype, level=level)
 
         if not data:
             return fail('Failed to parse gff')

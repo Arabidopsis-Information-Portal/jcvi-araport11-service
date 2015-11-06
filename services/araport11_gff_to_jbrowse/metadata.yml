@@ -1,7 +1,7 @@
 ---
-name: gff_to_jbrowse
-description: Generic web service to parse GFF files and return data in JBrowse compatible JSON format
-version: 0.2
+name: araport11_gff_to_jbrowse
+description: Web service to parse Araport11 GFF and return data in JBrowse compatible JSON format
+version: 0.1
 icon: araport.png
 
 authors:
@@ -12,7 +12,7 @@ authors:
 
 type: generic
 main_module: main.py
-url: https://www.araport.org
+url: https://www.araport.org/data/araport11
 validate_request: true
 whitelist:
   - www.araport.org
@@ -27,7 +27,7 @@ endpoints:
     summary: Mimics the JBrowse /features REST endpoint
     parameters:
       - name: q
-        description: Query the desired JBrowse REST API endpoint
+        description: JBrowse REST API endpoint
         type: string
         required: true
         enum:
@@ -63,6 +63,17 @@ endpoints:
           - '+'
           - '-'
           - '.'
+      - name: featuretype
+        description: Parent GFF featuretype
+        type: string
+        default: 'mRNA'
+      - name: level
+        description: Depth of child feature(s)
+        type: integer
+        format: int32
+        minumum: 0
+        maximum: 2
+        default: 1
       - name: scale
         description: Scale
         type: number
@@ -73,18 +84,14 @@ endpoints:
         type: number
         format: double
         default: 0.0
-      - name: featuretype
-        description: Parent GFF featuretype
-        type: string
-        default: 'mRNA'
   /list:
     description: Chromosome information
     summary: Returns a list of A. thaliana chromosome identifiers and length
     parameters: []
 
 sources:
-  - title: "Generic web service to transform GFF files into JBrowse compatible JSON format"
-    description: "Web service uses gffutils to parse GFF file, extract features of interest and convert to JBrowse JSON format"
+  - title: "Web service to transform features from Araport11 GFF into JBrowse compatible JSON format"
+    description: "Araport11 GFF web service uses gffutils to parse GFF3 file, extract features of interest and convert to JBrowse JSON format"
     language: en-us
     sponsor_organization_name: J. Craig Venter Institute
     sponsor_uri: https://www.jcvi.org
