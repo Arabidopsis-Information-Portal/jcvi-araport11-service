@@ -26,7 +26,8 @@ def search(args):
         'end': coordinates['end'],
         'strand': coordinates['strand'],
         'featuretype': 'gene',
-        'level': 2
+        'level': 2,
+        'completely_within': True
     }
     data = tools.do_request(url, token, **payload)
     return 'application/json', json.dumps(data)
