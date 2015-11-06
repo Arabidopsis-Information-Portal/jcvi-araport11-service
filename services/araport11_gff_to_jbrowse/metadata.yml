@@ -59,11 +59,10 @@ endpoints:
         description: Strand
         type: string
         enum:
+          - null
           - '+'
           - '-'
           - '.'
-          - null
-        defult: null
       - name: featuretype
         description: Parent GFF featuretype
         type: string
@@ -78,7 +77,6 @@ endpoints:
       - name: completely_within
         description: Return features that partially or completely overlap region
         type: boolean
-        default: false
       - name: scale
         description: Scale
         type: number

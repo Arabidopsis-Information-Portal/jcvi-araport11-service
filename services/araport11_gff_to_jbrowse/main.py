@@ -17,10 +17,14 @@ def search(args):
     end = args['end']
     if start >= end:
         tools.fail('End coordinate must be greater than start')
-    strand = args['strand']
-    featuretype = args['featuretype']
-    level = args['level']
-    completely_within = args['completely_within']
+    strand = None if 'strand' not in args \
+            else args['strand']
+    featuretype = 'mRNA' if not in args \
+            else args['featuretype']
+    level = 1 if not in args \
+            else args['level']
+    completely_within = False if 'completely_within' not in args \
+            else args['completely_within']
 
     if q == 'features':
         data = utils.parse_gff(gff_file, chrom=chrom, start=start, \
