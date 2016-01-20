@@ -1,7 +1,7 @@
 ---
 
 name: araport11_gene_structure_by_locus
-description: Given a valid AGI locus return it's features from the Araport11 Pre-Release 2 (10/2015) annotation
+description: Given a valid AGI locus return it's features from the latest Araport11 annotation
 version: 1.1
 tags:
     - 'annotation'

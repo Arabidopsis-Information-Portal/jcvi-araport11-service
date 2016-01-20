@@ -1,6 +1,6 @@
 ---
 name: araport11_gff_region_to_jbrowse
-description: Web service extract features within a region from Araport11 GFF and return data in JBrowse compatible JSON format
+description: Web service to extract features within a region from latest Araport11 GFF and return data in JBrowse compatible JSON format
 version: 0.1
 icon: araport.png
 
