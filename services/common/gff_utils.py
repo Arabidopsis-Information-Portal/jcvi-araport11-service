@@ -19,7 +19,7 @@ def read_index(gff_file, inmemory=False):
             shell=True, executable='/bin/bash')
 
     if not op.exists(gff_file_db):
-        return gffutils.create_db(gff_file, gff_file_db)
+        gffutils.create_db(gff_file, gff_file_db)
 
     return gffutils.FeatureDB(gff_file_db)
 
