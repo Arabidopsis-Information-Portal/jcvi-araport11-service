@@ -18,10 +18,10 @@ def read_index(gff_file, inmemory=False):
         call('gunzip {0}'.format(gff_file_db_gz), \
             shell=True, executable='/bin/bash')
 
-    if op.exists(gff_file_db):
-        return gffutils.FeatureDB(gff_file_db)
+    if not op.exists(gff_file_db):
+        return gffutils.create_db(gff_file, gff_file_db)
 
-    return gffutils.create_db(gff_file)
+    return gffutils.FeatureDB(gff_file_db)
 
 
 def parse_gff(gff_file, chrom, start, end, strand, featuretype, level, completely_within):
