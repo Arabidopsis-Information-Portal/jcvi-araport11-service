@@ -31,7 +31,7 @@ def search(args):
     if q == 'features':
         data = utils.parse_gff(gff_file, chrom=chrom, start=start, \
             end=end, strand=strand, featuretype=featuretype, level=level, \
-            completely_within=completely_within)
+            completely_within=completely_within, interbase=interbase)
 
         if not data:
             return tools.fail('Failed to parse gff')
