@@ -28,6 +28,7 @@ def search(args):
         'featuretype': 'gene',
         'level': 2,
         'completely_within': True
+        'interbase' : False
     }
     data = tools.do_request(url, token, **payload)
     return 'application/json', json.dumps(data)
