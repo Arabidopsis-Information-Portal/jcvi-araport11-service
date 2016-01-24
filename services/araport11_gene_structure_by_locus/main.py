@@ -27,7 +27,7 @@ def search(args):
         'strand': coordinates['strand'],
         'featuretype': 'gene',
         'level': 2,
-        'completely_within': True
+        'completely_within': True,
         'interbase' : False
     }
     data = tools.do_request(url, token, **payload)
