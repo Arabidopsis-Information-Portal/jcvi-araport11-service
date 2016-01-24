@@ -77,6 +77,10 @@ endpoints:
       - name: completely_within
         description: Return features that partially or completely overlap region
         type: boolean
+      - name: interbase
+        description: Return coordinates in either interbase or 1-based format
+        type: boolean
+        default: true
       - name: scale
         description: Scale
         type: number

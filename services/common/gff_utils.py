@@ -24,7 +24,7 @@ def read_index(gff_file, inmemory=False):
     return gffutils.FeatureDB(gff_file_db)
 
 
-def parse_gff(gff_file, chrom, start, end, strand, featuretype, level, completely_within):
+def parse_gff(gff_file, chrom, start, end, strand, featuretype, level, completely_within, interbase):
     """Parse GFF and return JSON."""
 
     db = read_index(gff_file)
@@ -36,7 +36,7 @@ def parse_gff(gff_file, chrom, start, end, strand, featuretype, level, completel
         _strand = 1 if parent.strand == '+' else \
             (-1 if parent.strand == '-' else 0)
         pfeat = {
-            'start' : parent.start,
+            'start' : (parent.start - 1) if interbase else parent.start,
             'end' : parent.end,
             'strand' : _strand,
             'uniqueID' : parent.id,
@@ -54,11 +54,9 @@ def parse_gff(gff_file, chrom, start, end, strand, featuretype, level, completel
                 _parent = child.attributes.get('Parent')[0]
                 if _parent not in cfeats: cfeats[_parent] = []
                 cfeat = {
-                    'start' : child.start,
+                    'start' : (child.start - 1) if interbase else child.start,
                     'end' : child.end,
                     'strand' : _strand,
-                    'uniqueID' : child.id,
-                    'name' : child.attributes.get('Name', [child.id])[0],
                     'type' : child.featuretype,
                     'score' : child.score if (isinstance(child.score, (int, float))) else 0
                 }

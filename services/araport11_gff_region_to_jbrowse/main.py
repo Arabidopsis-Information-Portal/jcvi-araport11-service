@@ -25,6 +25,8 @@ def search(args):
             else args['level']
     completely_within = False if 'completely_within' not in args \
             else args['completely_within']
+    interbase = True if 'interbase' not in args \
+            else args['interbase']
 
     if q == 'features':
         data = utils.parse_gff(gff_file, chrom=chrom, start=start, \
