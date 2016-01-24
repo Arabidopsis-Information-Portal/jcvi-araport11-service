@@ -10,12 +10,12 @@ Objective: Build a simple web service which can parse standalone GFF3 files, ext
 Araport.location = ./plugins/Araport
 ```
 
-* This adapter relies on storing the GFF3 file (and gzipped intermediary sqlite database) within the repository in the `data/` sub-directory. In this example implementation, we have configured this code repository to host and serve the latest [Araport11 Pre-Release 2 (Oct 2015)](https://www.araport.org/data/araport11) genome annotation dataset. In order to create the sqlite database and commit it into the git repository, follow the steps outlined below:
+* This adapter relies on storing the GFF3 file (and gzipped intermediary sqlite database) within the repository in the `data/` sub-directory. In this example implementation, we have configured this code repository to host and serve the latest [Araport11 Pre-Release 3 (Dec 2015)](https://www.araport.org/data/araport11) genome annotation dataset. In order to create the sqlite database and commit it into the git repository, follow the steps outlined below:
   ```
   % cd data/
   % ls *.gff3
-  Araport11_genes.20150701.gff3
-  % cp -s Araport11_genes.20150701.gff3 input.gff3
+  Araport11_genes.20151202.gff3
+  % cp -s Araport11_genes.20151202.gff3 input.gff3
 
   % python
   >>> import gffutils
@@ -28,7 +28,7 @@ Araport.location = ./plugins/Araport
   % git push
   ```
 
-* Once the above step is complete, ensure that the [araport11_gff_to_jbrowse](https://github.com/Arabidopsis-Information_Portal/araport11_gff_to_jbrowse) adapter is registered and accessible via ADAMA. See [metadata.yml](https://github.com/Arabidopsis-Information_Portal/araport11_gff_to_jbrowse/blob/master/metadata.yml) for adapter configuration (list of dependency modules and REST endpoints described using swagger.io spec).
+* Once the above step is complete, ensure that the [araport11_gff_region_to_jbrowse](https://github.com/Arabidopsis-Information-Portal/jcvi-araport11-services/tree/master/services/araport11_gff_region_to_jbrowse) adapter is registered and accessible via ADAMA. See [metadata.yml](https://github.com/Arabidopsis-Information-Portal/jcvi-araport11-services/blob/master/services/araport11_gff_region_to_jbrowse/metadata.yml) for adapter configuration (list of dependency modules and REST endpoints described using swagger.io spec).
 
 * Set up the following track configuration in JBrowse within `trackList.json`:
 ```
@@ -46,13 +46,13 @@ Araport.location = ./plugins/Araport
    "key" : "Araport11 Protein Coding Genes",
    "noExport" : true,
    "storeClass" : "Araport/Store/SeqFeature/REST",
-   "baseUrl" : "https://api.araport.org/community/v0.3/araport/araport11_gff_to_jbrowse_v0.1",
+   "baseUrl" : "https://api.araport.org/community/v0.3/araport/araport11_gff_region_to_jbrowse_v0.1",
    "compress" : 0,
    "type" : "FeatureTrack",
-   "category" : "A. Araport11 / Pre-Release 2 (Oct 2015) / Annotation",
+   "category" : "A. Araport11 / Pre-Release 3 (Dec 2015) / Annotation",
    "metadata" : {
-        "Description" : "Protein coding gene models annotated as part of the Araport11 Pre-Release 2 (Oct 2015)",
-        "Source" : "Araport11 Pre-release 2 (Oct 2015)",
+        "Description" : "Protein coding gene models annotated as part of the Araport11 Pre-Release 3 (Dec 2015)",
+        "Source" : "Araport11 Pre-release 3 (Dec 2015)",
         "URL" : "https://www.araport.org/data/araport11"
     },
    "label" : "Araport11_gene_models",
