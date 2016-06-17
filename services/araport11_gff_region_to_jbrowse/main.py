@@ -5,7 +5,7 @@ import os.path as op
 import services.common.tools as tools
 import services.common.gff_utils as utils
 
-gff_file = op.join(op.dirname(__file__), 'data', 'input.gff3')
+gff_file = op.join(op.dirname(__file__), 'data', 'input.gff')
 
 def search(args):
     """

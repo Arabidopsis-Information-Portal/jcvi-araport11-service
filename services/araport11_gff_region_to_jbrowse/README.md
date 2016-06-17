@@ -10,20 +10,20 @@ Objective: Build a simple web service which can parse standalone GFF3 files, ext
 Araport.location = ./plugins/Araport
 ```
 
-* This adapter relies on storing the GFF3 file (and gzipped intermediary sqlite database) within the repository in the `data/` sub-directory. In this example implementation, we have configured this code repository to host and serve the latest [Araport11 Pre-Release 3 (Dec 2015)](https://www.araport.org/data/araport11) genome annotation dataset. In order to create the sqlite database and commit it into the git repository, follow the steps outlined below:
+* This adapter relies on storing the GFF3 file (and gzipped intermediary sqlite database) within the repository in the `data/` sub-directory. In this example implementation, we have configured this code repository to host and serve the latest [Araport11 Release (Jun 2016)](https://www.araport.org/data/araport11) genome annotation dataset. In order to create the sqlite database and commit it into the git repository, follow the steps outlined below:
   ```
   % cd data/
-  % ls *.gff3
-  Araport11_genes.20151202.gff3
-  % cp -s Araport11_genes.20151202.gff3 input.gff3
+  % ls *.gff
+  Araport11_GFF3_genes_transposons.201606.gff
+  % cp -s Araport11_GFF3_genes_transposons.201606.gff input.gff
 
   % python
   >>> import gffutils
-  >>> gffutils.create_db('input.gff3', 'input.gff3.db')
+  >>> gffutils.create_db('input.gff', 'input.gff.db')
   >>> Ctrl + D
 
-  % gzip -9 input.gff3.db
-  % git add *
+  % gzip -9 input.gff.db
+  % git add input.gff.db.gz
   % git commit -am 'Add custom GFF3 file'
   % git push
   ```
@@ -49,10 +49,10 @@ Araport.location = ./plugins/Araport
    "baseUrl" : "https://api.araport.org/community/v0.3/araport/araport11_gff_region_to_jbrowse_v0.1",
    "compress" : 0,
    "type" : "FeatureTrack",
-   "category" : "A. Araport11 / Pre-Release 3 (Dec 2015) / Annotation",
+   "category" : "Araport Data / Araport11 / Annotation (Jun 2016)",
    "metadata" : {
-        "Description" : "Protein coding gene models annotated as part of the Araport11 Pre-Release 3 (Dec 2015)",
-        "Source" : "Araport11 Pre-release 3 (Dec 2015)",
+        "Description" : "Protein coding gene models annotated as part of the Araport11 Release (Jun 2016)",
+        "Source" : "Araport11 Release (Jun 2016)",
         "URL" : "https://www.araport.org/data/araport11"
     },
    "label" : "Araport11_gene_models",
