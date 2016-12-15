@@ -1,0 +1,97 @@
+---
+name: araport11_genomic_region_to_jbrowse
+description: Web service to extract features within a region from latest Araport11 data in ThaleMine and return in JBrowse compatible JSON format
+version: 0.1
+icon: araport.png
+tags:
+    - 'annotation'
+    - 'arabidopsis'
+    - 'araport11'
+
+authors:
+    - name: Vivek Krishnakumar
+      email: vkrishna@jcvi.org
+      sponsor_organization: J. Craig Venter Institute
+      sponsor_uri: http://www.jcvi.org
+
+type: generic
+main_module: services.araport11_genomic_region_to_jbrowse.main.py
+url: https://www.araport.org/data/araport11
+validate_request: true
+whitelist:
+  - www.araport.org
+  - apps.araport.org
+  - api.araport.org
+requirements:
+  - intermine
+  - requests
+
+endpoints:
+  /search:
+    description: Extract features from desired chromosome range from ThaleMine and return in JSON. Maps to the JBrowse REST API implementation spec
+    summary: Returns features or feature densities within a region
+    parameters:
+      - name: q
+        description: JBrowse REST API endpoint
+        type: string
+        enum:
+          - 'features'
+          - 'globalStats'
+          - 'regionStats'
+          - 'regionFeatureDensities'
+        default: 'features'
+        required: true
+      - name: featuretype
+        description: Parent Feature Type
+        type: string
+        default: 'mRNA'
+        required: true
+      - name: chr
+        description: Chromosome
+        type: string
+        default: 'Chr1'
+        pattern: '^Chr[1-5CM]$'
+      - name: start
+        description: Start
+        type: integer
+        format: int64
+        default: 216843
+      - name: end
+        description: End
+        type: integer
+        format: int64
+        default: 225822
+        minimum: 1
+      - name: strand
+        description: Strand
+        type: string
+        enum:
+          - null
+          - '+'
+          - '-'
+          - '.'
+      - name: level
+        description: Depth of child feature(s)
+        type: integer
+        format: int32
+        minumum: 0
+        maximum: 2
+        default: 1
+      - name: completely_within
+        description: Return features that partially or completely overlap region
+        type: boolean
+
+  /list:
+    description: Chromosome information
+    summary: Returns a list of A. thaliana chromosome identifiers and length
+    parameters: []
+
+sources:
+  - title: "Web service to extract Araport11 data from within ThaleMine and return in JBrowse compatible JSON format"
+    description: "Araport11 ThaleMine web service uses ThaleMine JBrowse REST API to extract features of interest within a genomic region and return the response in JBrowse JSON format"
+    language: en-us
+    sponsor_organization_name: J. Craig Venter Institute
+    sponsor_uri: https://www.jcvi.org
+    provider_name: Christopher D. Town
+    provider_email: cdtown@jcvi.org
+    uri: https://www.araport.org

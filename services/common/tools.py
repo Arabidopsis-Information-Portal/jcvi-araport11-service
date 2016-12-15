@@ -3,6 +3,18 @@ import re
 import requests
 
 
+def to_camel_case(snake_str):
+    """Convert input snake_str to CamelCase"""
+    components = snake_str.split('_')
+    camel_str = "".join(x.title() for x in components)
+
+    # specifically address RNA/CDS feature types
+    for s in ["RNA", "CDS"]:
+        regex = re.compile(s.lower(), re.IGNORECASE)
+        camel_str = regex.sub(s, camel_str)
+
+    return camel_str
+
 def do_request(url, token, **kwargs):
     """Perform a request to SITE and return JSON."""
 
