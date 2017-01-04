@@ -17,8 +17,9 @@ def search(args):
     if not coordinates:
         raise Exception("Locus '%s' could not be found!" % search_locus)
 
-    # get all of the overlapping features in jBrowse format from the araport11_gff_to_jbrowse service
-    url = op.join(_url, 'araport', 'araport11_gff_region_to_jbrowse_v0.1', 'search')
+    # get all of the overlapping features in JBrowse JSON format
+    # from the araport11_genomic_region_to_jbrowse service powered by ThaleMine
+    url = op.join(_url, 'araport', 'araport11_genomic_region_to_jbrowse_v0.1', 'search')
     payload = {
         'q': 'features',
         'chr': coordinates['chromosome'],
@@ -28,7 +29,7 @@ def search(args):
         'featuretype': 'gene',
         'level': 2,
         'completely_within': True,
-        'interbase' : False
+        'interbase': False
     }
     data = tools.do_request(url, token, **payload)
     return 'application/json', json.dumps(data)
