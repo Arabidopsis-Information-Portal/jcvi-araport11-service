@@ -87,8 +87,8 @@ endpoints:
     parameters: []
 
 sources:
-  - title: "Web service to extract Araport11 data from within ThaleMine and return in JBrowse compatible JSON format"
-    description: "Araport11 ThaleMine web service uses ThaleMine JBrowse REST API to extract features of interest within a genomic region and return the response in JBrowse JSON format"
+  - title: ThaleMine
+    description: InterMine-based information warehouse containing essential Arabidopsis Col-0 data sets
     language: en-us
     sponsor_organization_name: J. Craig Venter Institute
     sponsor_uri: https://www.jcvi.org
