@@ -26,12 +26,15 @@ def search(args):
             else args['completely_within']
     level = 2 if 'level' not in args \
             else args['level']
+    interbase = True if 'interbase' not in args \
+            else args['interbase']
 
     imfeatureclass = tools.to_camel_case(featuretype)
     if q == 'features':
         data = utils.get_features(refseq=chrom, start=start, \
-            end=end, strand=strand, featuretype=imfeatureclass,
-            completely_within=completely_within, level=level)
+            end=end, strand=strand, featuretype=imfeatureclass, \
+            level=level, completely_within=completely_within, \
+            interbase=interbase)
 
         if not data:
             return tools.fail('Failed to retrieve feature data in JSON')

@@ -9,24 +9,28 @@ service = Service(THALEMINE_BASE_URL)
 
 TAXID = "3702"
 
-def get_features(refseq, start, end, strand, featuretype="gene", completely_within=True, level=2):
+def get_features(refseq, start, end, strand, featuretype="gene", level=2, completely_within=False, interbase=True):
     """
     Return the features within a given set of chromosome coordinates
     """
     url = urljoin(THALEMINE_BASE_URL, "jbrowse", TAXID, "features", refseq)
     data = tools.do_request(url, None, start=start, end=end, type=featuretype)
 
+    # By default, data from ThaleMine is returned in 0-based (interbase) format
+    if not interbase:
+        data = convert_to_1based(data)
+
     elems_to_delete = []
     for x, elem0 in enumerate(data['features']):
-        # remove feature if not completely_within specified chromosome coordinates
-        if completely_within and ((elem0['start'] + 1) < start or elem0['end'] > end):
+        if completely_within and (elem0['start'] < start or elem0['end'] > end):
+            # remove feature if not completely_within specified chromosome coordinates
             elems_to_delete.append(x)
             continue
-        # remove all subfeatures below 0th-level object
         if level == 0:
+            # remove all subfeatures below 0th-level object
             data['features'][x]['subfeatures'] = []
-        # remove all subfeatures below 1st-level object
         elif level == 1:
+            # remove all subfeatures below 1st-level object
             for y, elem1 in enumerate(elem0['subfeatures']):
                 data['features'][x]['subfeatures'][y]['subfeatures'] = []
 
@@ -126,6 +130,20 @@ def infer_cds_coords(feat):
         cdsPartsToAdd.append(cdsPart)
 
     return cdsPartsToAdd, cdsPartsToRemove
+
+def convert_to_1based(data):
+    """
+    Given a JBrowse JSON feature object from ThaleMine, iterate through all
+    levels and convert start coordinate from 0-based (interbase) to 1-based
+    """
+    for x, elem0 in enumerate(data['features']):
+        data['features'][x]['start'] += 1
+        for y, elem1 in enumerate(elem0['subfeatures']):
+            data['features'][x]['subfeatures'][y]['start'] += 1
+            for z in xrange(len(elem1['subfeatures'])):
+                data['features'][x]['subfeatures'][y]['subfeatures'][z]['start'] += 1
+
+    return data
 
 def get_global_stats(featuretype):
     """
