@@ -20,11 +20,11 @@ def search(args):
         tools.fail('End coordinate must be greater than start')
     strand = None if 'strand' not in args \
             else args['strand']
-    featuretype = 'mRNA' if 'featuretype' not in args \
+    featuretype = 'gene' if 'featuretype' not in args \
             else args['featuretype']
     completely_within = False if 'completely_within' not in args \
             else args['completely_within']
-    level = 1 if 'level' not in args \
+    level = 2 if 'level' not in args \
             else args['level']
 
     imfeatureclass = tools.to_camel_case(featuretype)
