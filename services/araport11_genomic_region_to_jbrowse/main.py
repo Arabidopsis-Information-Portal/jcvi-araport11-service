@@ -24,8 +24,15 @@ def search(args):
             else args['featuretype']
     completely_within = False if 'completely_within' not in args \
             else args['completely_within']
-    level = 2 if 'level' not in args \
-            else args['level']
+    if 'level' not in args:
+        level = 0
+        if featuretype.endswith('gene'):
+            level = 2
+        elif featuretype.endswith('RNA') or featuretype.endswith('transcript') or \
+            featuretype.endswith('match') or featuretype.endswith('region'):
+            level = 1
+    else:
+        level = args['level']
     interbase = True if 'interbase' not in args \
             else args['interbase']
 
