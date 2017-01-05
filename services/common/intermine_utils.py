@@ -16,15 +16,21 @@ def get_features(refseq, start, end, strand, featuretype="gene", level=2, comple
     url = urljoin(THALEMINE_BASE_URL, "jbrowse", TAXID, "features", refseq)
     data = tools.do_request(url, None, start=start, end=end, type=featuretype)
 
+    # Remove any features not on specified strand
+    if strand:
+        featsToRemove = remove_features_not_on_strand(data, strand=strand)
+        for i in sorted(featsToRemove, reverse=True):
+            del data['features'][i]
+
     # By default, data from ThaleMine is returned in 0-based (interbase) format
     if not interbase:
         data = convert_to_1based(data)
 
-    elems_to_delete = []
+    elemsToDelete = []
     for x, elem0 in enumerate(data['features']):
         if completely_within and (elem0['start'] < start or elem0['end'] > end):
             # remove feature if not completely_within specified chromosome coordinates
-            elems_to_delete.append(x)
+            elemsToDelete.append(x)
             continue
         if level == 0:
             # remove all subfeatures below 0th-level object
@@ -65,7 +71,7 @@ def get_features(refseq, start, end, strand, featuretype="gene", level=2, comple
                     # sort all subfeatures by start coordinates
                     data['features'][x]['subfeatures'][y]['subfeatures'].sort(key=lambda f: f['start'], reverse=False)
 
-    for i in sorted(elems_to_delete, reverse=True):
+    for i in sorted(elemsToDelete, reverse=True):
         del data['features'][i]
 
     return data
@@ -95,8 +101,8 @@ def infer_cds_coords(feat):
             if cdsEnd < fEnd: cdsEnd = fEnd
             cdsPartsToRemove.append(y)
 
-    # bail if we don't have exons/CDS
-    if not (len(exons) > 0 and cdsStart < float("inf") and cdsEnd > -float("inf")):
+    # bail if we don't have exons and CDS
+    if not (len(exons) > 0 and len(cdsPartsToRemove) > 0):
         return cdsPartsToAdd, []
 
     # sort exons by coordinates
@@ -105,15 +111,18 @@ def infer_cds_coords(feat):
     for e, exon in enumerate(exons):
         cdsPartStart, cdsPartEnd = float("inf"), -float("inf")
         exonStart, exonEnd = exon['start'], exon['end']
-        if cdsStart >= exonStart and cdsStart < exonEnd:  # first exon
+        if (cdsStart > exonStart and cdsStart < exonEnd) and \
+            (cdsEnd > exonStart and cdsEnd < exonEnd):    # CDS containing exon
+            cdsPartStart, cdsPartEnd = cdsStart, cdsEnd
+        elif cdsStart >= exonStart and cdsStart < exonEnd:  # 5' terminal CDS part
             cdsPartStart, cdsPartEnd = cdsStart, exonEnd
-        elif cdsEnd > exonStart and cdsEnd <= exonEnd:    # last exon
+        elif cdsEnd > exonStart and cdsEnd <= exonEnd:    # 3' terminal CDS part
             cdsPartStart, cdsPartEnd = exonStart, cdsEnd
-        elif exonStart < cdsEnd and exonEnd > cdsStart:   # internal exon
+        elif exonStart < cdsEnd and exonEnd > cdsStart:   # internal CDS part
             cdsPartStart, cdsPartEnd = exonStart, exonEnd
 
         # don't process exon if not overlapping CDS span
-        if cdsPartStart == cdsPartEnd == float("inf"):
+        if cdsPartStart == float("inf") or cdsPartEnd == -float("inf"):
             continue
 
         featId = "{0}:{1}:{2}".format(parent, 'CDS', e + 1)
@@ -130,6 +139,19 @@ def infer_cds_coords(feat):
         cdsPartsToAdd.append(cdsPart)
 
     return cdsPartsToAdd, cdsPartsToRemove
+
+def remove_features_not_on_strand(data, strand):
+    """
+    Given a strand ("+" or "-"), iterate through all top-level features (parent)
+    and discard if not on the specified strand.
+    """
+    featsToRemove = []
+    imstrand = 1 if strand == '+' else -1
+    for x, elem0 in enumerate(data['features']):
+        if imstrand != int(elem0['strand']):
+            featsToRemove.append(x)
+
+    return featsToRemove
 
 def convert_to_1based(data):
     """
