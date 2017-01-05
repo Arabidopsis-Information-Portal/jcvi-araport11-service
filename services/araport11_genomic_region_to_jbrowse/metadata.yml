@@ -76,12 +76,11 @@ endpoints:
         format: int32
         minumum: 0
         maximum: 2
-        default: 2
       - name: completely_within
         description: Return features that partially or completely overlap region
         type: boolean
       - name: interbase
-        description: Return coordinates in 0-based (interbase) or 1-based format
+        description: Return feature coordinates in 0-based (interbase) or 1-based format
         type: boolean
 
   /list:
