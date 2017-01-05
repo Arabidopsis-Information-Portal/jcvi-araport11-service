@@ -1,3 +1,4 @@
+import re
 import json
 import requests
 import os.path as op
@@ -24,12 +25,13 @@ def search(args):
             else args['featuretype']
     completely_within = False if 'completely_within' not in args \
             else args['completely_within']
+    level = 0
     if 'level' not in args:
-        level = 0
-        if featuretype.endswith('gene'):
+        lvl2_pat = re.compile(r"gene$", re.I)
+        lvl1_pat = re.compile(r"RNA$|transcript$|match$|region$", re.I)
+        if re.search(lvl2_pat, featuretype):
             level = 2
-        elif featuretype.endswith('RNA') or featuretype.endswith('transcript') or \
-            featuretype.endswith('match') or featuretype.endswith('region'):
+        elif re.search(lvl1_pat, featuretype):
             level = 1
     else:
         level = args['level']
